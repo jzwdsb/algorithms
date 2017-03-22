@@ -8,7 +8,7 @@
  * Given preorder and inorder traversal of a tree, construct the binary tree
  * 从先序遍历序列和中序遍历序列中还原二叉树的结构
  * 分析：
- *    利用二叉树的递归性质和中序先序的关系还原
+ *    利用二叉树的递归性质和中序先序的关系还原二叉树
  */
 
 BiNode* build_tree(const vector<int>& pre_order,const vector<int>& in_order)
