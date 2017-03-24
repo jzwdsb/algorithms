@@ -46,3 +46,25 @@ int dfs(int x, int y)
     if(f[x][y] > 0)return f[x][y];
     return f[x][y] = dfs(x - 1, y) + dfs(x, y - 1);
 }
+
+//设状态f[i][j],表示从起点到达(i, j)的路线条数,则状态转移方程为
+//	f[i][j] = f[i - 1][j] + f[i][j - 1]
+
+//动态规划，滚动数组
+//时间复杂度 O( n ^ 2)，空间复杂度 O(n)
+int unique_path__(int m, int n)
+{
+	vector<int> f(n，0)
+	f[0] = 1;
+	for(int i = 0; i < m; ++i)
+	{
+		for(int j = 1; j < n; ++j)
+		{
+			//左边的f[j]表示新的f[j]，与公式中的f[i][j]对应
+			//右边的f[j]表示旧的f[j]，与公式中的f[i - 1][j]对应
+			f[j] = f[j] + f[j - 1]
+		}
+	}
+	return f[n - 1];
+}
+
