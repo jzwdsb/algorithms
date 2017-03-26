@@ -67,4 +67,32 @@ int unique_path__(int m, int n)
 	}
 	return f[n - 1];
 }
+/*
+ *		一个m行n列的矩阵，机器人从左上走到右下需要m + n - 2步，于是题目变成机器人在其中的 m - 1处向右走一步
+ *	或者在 n - 1处向下走一步的选择，根据排列组合公式 C (m - 1, m + n - 2)
+ */
 
+int64_t factor(int n, int start = 1)
+{
+	int64_t ret = 1;
+	for (int i = start; i < n ; ++i)
+	{
+		ret *= i;
+	}
+	return ret;
+}
+
+int64_t combination(int n, int k)
+{
+	//常数优化
+	if (n == 0)return 1;
+	if (k == 1)return n;
+	int64_t ret = factor(n, n - 1);
+	ret /= factor(n - k);
+	return ret;
+}
+
+int unique_path___(int m, int n)
+{
+	return combination(m + n - 2, max(m - 1, n - 1));
+}
