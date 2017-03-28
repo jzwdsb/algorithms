@@ -1,4 +1,4 @@
-//
+shi小于高度//
 // Created by manout on 17-3-28.
 //
 
@@ -27,6 +27,7 @@ int trap(const vector<int>& A)
     for (int i = 0; i < n; ++i)
     {
         int capacity = max(max_left[i], max_right[i]);
+        //如果容量小于高度，说明该柱是所有柱子中最高的
         if (capacity > A[i])
         {
             sum += capacity - A[i];
