@@ -12,46 +12,63 @@ string analy(const string& pattern)
     auto front = pattern.begin();
     auto back = pattern.end() - 1;
     string ret;
-    while(front not_eq back)
+    while(front not_eq pattern.end())
     {
-        if (*front >= '0' and *front <= '9')
+        while (isalpha(*front))
+        {
+            ret.push_back(*front);
+            ++front;
+        }
+        if (isdigit(*front))
         {
             int num = *front - '0';
             ++front;
-            if (*front == '(' and *back == ')')
+            if (*front == '(')
             {
+                while (*back not_eq ')')
+                {
+                    --back;
+                }
                 string t = analy(string(front + 1, back + 1));
                 for (int i = 0; i < num - 1; ++i)
                 {
                     ret += t;
                 }
-                return ret;
+                front = back + 1;
+                if (front == pattern.end())
+                {
+                    return ret;
+                }
             } else
             {
                 ret += string(num, *front);
             }
-        } else
-        {
-            while (not isdigit(*front))
-            {
-                ret.push_back(*front);
-                ++front;
-            }
-        }
-        while (not isdigit(*front))
-        {
-            ret.push_back(*front);
-            ++front;
-        }
-        if (front == pattern.end())
-        {
-            return ret;
-        }
-        if (isdigit(*front))
-        {
-            ret += analy(string(front + 1, back));
         }
     }
+    /*
+//     else
+//        {
+//            while ( isalpha(*front))
+//            {
+//                ret.push_back(*front);
+//                ++front;
+//            }
+//        }
+//        while (not isdigit(*front))
+//        {
+//            ret.push_back(*front);
+//            ++front;
+//        }
+//        if (front == pattern.end())
+//        {
+//            return ret;
+//        }
+//        if (isdigit(*front))
+//        {
+//            ret += analy(string(front + 1, back));
+//        }
+//    }
+ */
     return ret;
 }
 
