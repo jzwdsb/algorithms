@@ -1,1 +1,4 @@
-CMakeLists.txt not found in /home/manout/alogrithms
+/home/manout/.local/share/umake/ide/clion/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/manout/alogrithms
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/manout/alogrithms/cmake-build-debug
