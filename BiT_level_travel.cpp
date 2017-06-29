@@ -9,10 +9,12 @@
  * 二叉树的广度优先遍历递归实现
  */
 
+void traverse(BiNode*, int, vector<vector<int>> &);
+
 vector<vector<int>> BiT_level_travel(BiNode* root)
 {
     vector<vector<int>> ret;
-    BiT_level_travel_(root, 1, ret);
+    traverse(root, 1, ret);
     return ret;
 }
 
