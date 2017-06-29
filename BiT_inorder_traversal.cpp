@@ -3,12 +3,12 @@
 //
 
 #include "common_use.h"
-#include "Bi_node.h"
+#include "BiNode.h"
 /*
  *      inorder traversal a BiT
  */
 
-
+using TreeNode = BiNode;
 
 void inorder_traversal(TreeNode* root, vector<int>& ret)
 {
