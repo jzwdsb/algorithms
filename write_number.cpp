@@ -1,9 +1,13 @@
 //
 // Created by manout on 17-5-22.
 //
+#include <iostream>
 #include <stdio.h>
 #include <sstream>
 #include <string>
+
+
+using std::string
 
 /*
  *  将一个数字各个数位求和后从首位开始已汉语拼音的形式输出
@@ -22,7 +26,7 @@ int get_sum(long num)
 }
 string get_pinyin(char num)
 {
-    switch num:
+    switch (num)
     {
         case '0':
             return string("ling");
@@ -53,7 +57,7 @@ int main()
     long num;
     std::cin >> num;
     int bit_sum = get_sum(num);
-    sstream ss;
+    std::stringstream ss;
     ss << bit_sum;
     std::string st = ss.str();
     for (auto it = st.begin(); it not_eq st.end(); ++it)
