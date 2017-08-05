@@ -38,7 +38,7 @@ vector<int> two_sum(vector<int> nums, int target){
 		if(mapping.find(gap) not_eq mapping.end() and mapping[gap] > i){
 			//向结果中添加其下标，在本题中，下标从1开始
 			result.push_back(i + 1);
-			result.push_back(mapping[gap] + 1)
+			result.push_back(mapping[gap] + 1);
 		}
 	}
 	
