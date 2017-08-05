@@ -4,6 +4,7 @@
 
 #include <unordered_map>
 #include <vector>
+
 std::vector<size_t> continue_with_callatz(size_t count,const std::vector<size_t>& nums )
 {
     std::unordered_map<size_t, size_t > reTable;
