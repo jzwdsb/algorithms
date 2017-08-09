@@ -22,9 +22,10 @@ string reverse_string(const string& sentence)
         string_split >> buffer;
         string_list.push_back(buffer);
     }
-    for (auto it = string_list.rbegin(); it not_eq string_list.rend(); ++it)
+    for (auto it = string_list.rbegin(); it not_eq string_list.rend() - 1; ++it)
     {
-        ret += *it;
+        ret += *it + ' ';
     }
+    ret += *string_list.begin();
     return ret;
 }
