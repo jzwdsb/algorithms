@@ -18,6 +18,7 @@ void intertostr(int a, string &str, stringstream& ss)
 {
     ss << a;
     ss >> str;
+    ss.clear();
 }
 
 inline
@@ -25,12 +26,13 @@ void strtointer(string& str, int &a, stringstream& ss)
 {
     ss << str;
     ss >> a;
+    ss.clear();
 }
 
 
 vector<num_pair> number_blackhole(int a)
 {
-    int b, c;
+    int b;
     string str, re_str;
     stringstream ss;
     vector<num_pair> ret;
@@ -42,19 +44,19 @@ vector<num_pair> number_blackhole(int a)
 
     strtointer(re_str, b, ss);
     strtointer(str, a, ss);
-    c = b - a;
-    if (c == 0)
+    a = b - a;
+    if (a == 0)
         return ret;
     ret.emplace_back(b, a);
-    while (c not_eq 6174)
+    while (a not_eq 6174)
     {
-        intertostr(c, str, ss);
+        intertostr(a, str, ss);
         sort(str.begin(), str.end());
         strtointer(str, a, ss);
         re_str.assign(str.rbegin(), str.rend());
         strtointer(re_str, b, ss);
         ret.emplace_back(b, a);
-        c = b - a;
+        a = b - a;
     }
 
     return ret;
