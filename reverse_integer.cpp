@@ -35,8 +35,3 @@ int reverse(int x)
     return static_cast<int>(num * flag);
 }
 
-int main ()
-{
-    cout << reverse(23456);
-    return 0;
-}
