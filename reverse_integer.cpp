@@ -22,6 +22,9 @@ int reverse(int x)
     ss << x;
     ss >> num_str;
     re_str.assign(num_str.rbegin(), num_str.rend());
+    // 当上一次的字符流使用完毕时，会留下一个 eofbit 的error state
+    // 所以当再次使用该字符流时，应该调用clear清空错误码，否则输入流会不进行操作退出
+
     ss.clear();
     ss << re_str;
     ss >> num;
@@ -32,4 +35,8 @@ int reverse(int x)
     return static_cast<int>(num * flag);
 }
 
-
+int main ()
+{
+    cout << reverse(23456);
+    return 0;
+}
