@@ -15,7 +15,7 @@ bool is_valid(const string &s){
         if(left.find(c) not_eq string::npos){
             stk.push(c);
         }else{
-            if (stk.empty() or stk.top not_eq left[right.find(c)])
+            if (stk.empty() or stk.top() not_eq left[right.find(c)])
                 return false;
             else
                 stk.pop();
