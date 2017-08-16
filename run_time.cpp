@@ -27,10 +27,9 @@ string run_time(clock_t s, clock_t e)
     second = static_cast<int>(time % 60);
     minute = static_cast<int>((time % 3600) / 60 );
     hour = static_cast<int>(time / 3600);
-    if(second != 0)
+    if (hour != 0)
     {
-        ss << second;
-
+        ss << hour;
     }
     else
     {
@@ -44,9 +43,11 @@ string run_time(clock_t s, clock_t e)
     {
         ss << "00";
     }
-    if (hour != 0)
+
+    if(second != 0)
     {
-        ss << hour;
+        ss << second;
+
     }
     else
     {
@@ -54,14 +55,15 @@ string run_time(clock_t s, clock_t e)
     }
     while (ss >> buf)
     {
-        if (buf.length() == 2)
+        if (buf.length() >= 2)
         {
-            ret += ':' + buf;
+            ret +=  buf + ":";
         }
         else
         {
-            ret += ":0" + buf;
+            ret += '0' + buf + ':';
         }
     }
+    ret.erase(ret.end() - 1);
     return ret;
 }
