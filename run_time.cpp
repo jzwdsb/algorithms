@@ -5,7 +5,7 @@
 #include <ctime>
 #include <string>
 #include <sstream>
-using std::string
+using std::string;
 using std::stringstream;
 
 string run_time(clock_t s, clock_t e)
