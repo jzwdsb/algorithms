@@ -43,31 +43,12 @@ ID_container examine_ID(const ID_container& id_set)
 		check_sum = 0;
 		for (size_t i = 0; i < st.size() - 1; ++i)
 		{
-			switch(st[i])
-			{
-				case '0':
-				case '1':
-				case '2':
-				case '3':
-				case '4':
-				case '5':
-				case '6':
-				case '7':
-				case '8':
-				case '9':
-					check_sum += (st[i] - '0') * weight[i];
-					break;
-				case 'X':
-					check_sum += 10 * weight[i];
-					break;
-				default:
-					throw std::out_of_range("invalid argument");
-			}
-			checkcode = check_map[check_sum % 11];
-			if (checkcode not_eq *st.rbegin())
-			{
-				ret.push_back(st);
-			}
+			check_sum += (st[i] - '0') * weight[i];
+		}
+		checkcode = check_map[check_sum % 11];
+		if (checkcode not_eq *st.rbegin())
+		{
+			ret.push_back(st);
 		}
 	}
 	if (ret.empty())
