@@ -8,7 +8,6 @@
 #include <string>
 #include <vector>
 #include <stack>
-#include <iso646.h>
 #include <algorithm>
 #include <limits>
 
