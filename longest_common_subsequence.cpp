@@ -15,7 +15,7 @@ int longest_common_subsequence(string a, string b)
 	{
 		for (int j = 1; j <= b.size(); ++i)
 		{
-			if(a[i] == b[j])
+			if(a[i - 1] == b[j - 1])
 			{
 				mat[i][j] = mat[i + 1][j + 1] + 1;
 			}
