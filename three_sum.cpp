@@ -6,8 +6,6 @@
 using std::vector;
 using std::sort;
 
-#define not_eq  !=
-#define and     &&
 /*
  *      Given an array S of integers, are there element a, b, c in S such that
  *  a + b + c = 0? Find all unique triplets in the array which gives the sum of
