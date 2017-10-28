@@ -19,7 +19,7 @@ size_t count_pat(const string& pat)
 			{
 				if(*it_a == 'A')
 				{
-					ret += count(it_a + 1, pat.end(); 'T');
+					ret += count(it_a + 1, pat.end(), 'T');
 				}
 			}
 		}
