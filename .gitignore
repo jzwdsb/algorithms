@@ -1,5 +1,7 @@
 CMakeLists.txt
 .*
 *~
+*cbp
+*layout
 !.gitignore
 cmake-build-debug/
