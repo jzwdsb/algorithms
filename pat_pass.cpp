@@ -8,7 +8,7 @@
 
 using std::regex;
 bool judge_regular(std::string &src,
-        const regex& pattern = regex(R"==(.*?(p*?a*?t*?).*?)==", regex::icase) )
+        const regex& pattern = regex(R"==(A*?PA*?TA*?)==", regex::icase) )
 {
     std::match_results<std::string::iterator> result;
     return regex_match(src.begin(), src.end(), result, pattern,
