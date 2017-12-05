@@ -6,6 +6,7 @@ CMakeLists.txt
 *xml
 *depend
 main.cpp
+obj/
 !.gitignore
 cmake-build-debug/
 bin/
