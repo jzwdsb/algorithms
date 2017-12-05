@@ -3,5 +3,9 @@ CMakeLists.txt
 *~
 *cbp
 *layout
+*xml
+*depend
+main.cpp
 !.gitignore
 cmake-build-debug/
+bin/
