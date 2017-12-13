@@ -34,6 +34,10 @@ bool judege(const std::string& str)
         ++it;
         ++infix;
     }
+	if (prefix == 0 && infix > 1)
+	{
+		return false;
+	}
     if (it == str.end() || *it != 'T')
     {
         return false;
@@ -44,12 +48,8 @@ bool judege(const std::string& str)
         ++it;
         ++postfix;
     }
-    if (it == str.end() && postfix == prefix * infix)
-    {
-        return true;
-    }
-    return false;
-
+    return it == str.end() && postfix == prefix * infix;
+    
 }
 
 int main()
