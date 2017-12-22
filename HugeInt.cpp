@@ -64,5 +64,25 @@ HugeInt HugeInt::operator+(const HugeInt &b)
 	return ans;
 }
 
+HugeInt HugeInt::operator-(const HugeInt &b) const
+{
+	HugeInt ans;
+	int carry = 0;
+	ans.len = this->len;
+	for (int i = 0; i < ans.len; ++i)
+	{
+		ans[i] = this->data[i] - carry;
+		if (i < b.len)ans[i] -= b[i];
+		if(ans[i] < 0)
+		{
+			carry = ;
+			ans[i] += Base;
+		}
+		else carry = 0;
+		while(ans.len > 0 and ans[ans.len - 1] == 0) --ans.len;
+		return ans;
+	}
+}
+
 
 
