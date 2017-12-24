@@ -14,7 +14,7 @@
 
 int longest_valid_parentheses(const string &s)
 {
-    int max_len = 0
+    int max_len = 0;
     int last = -1;                  //最后一次出现 ）的位置
     stack<int> lefts;               //记录没有匹配的 （ 的序号
 
