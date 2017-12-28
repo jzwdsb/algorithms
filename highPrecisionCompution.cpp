@@ -46,6 +46,7 @@ int countAfterDot(const std::string& str)
 	return static_cast<int>(str.length() - dotPos);
 }
 
+
 /** 计算长整数的乘方*/
 long long myPow(int num, int n)
 {
@@ -64,7 +65,6 @@ long long myPow(int num, int n)
 		return ans * ans;
 	}
 }
-
 
 
 std::string operator+(std::string num, int a)
@@ -104,13 +104,29 @@ std::string operator+(std::string num, int a)
 	return num;
 }
 
-std::string operator+(std::string a, std::string b)
+std::string long_num_plus(const std::string& a, const std::string& b)
 {
 	int carry = 0;
 	std::string ans;
-	std::string::const_reverse_iterator a_it = a.rbegin();
-	std::string::const_reverse_iterator b_it = b.rbegin();
-	while (a_it not_eq a.rend() and b_it not_eq b.rend())
+	/** a is long number iterator */
+	/** b is short number iterator*/
+	std::string::const_reverse_iterator a_it, a_end;
+	std::string::const_reverse_iterator b_it, b_end;
+	if (a.length() >= b.length())
+	{
+		a_it = a.rbegin();
+		a_end = a.rend();
+		b_it = b.rbegin();
+		b_end = b.rend();
+	}
+	else
+	{
+		a_it = b.rbegin();
+		a_end = b.rend();
+		b_it = a.rbegin();
+		b_end = a.rend();
+	}
+	while (b_it not_eq b_end and a_it not_eq a_end )
 	{
 		char curr_bit = static_cast<char>(todigit(*a_it) + todigit(*b_it) + carry);
 		if (curr_bit >= 10)
@@ -123,61 +139,45 @@ std::string operator+(std::string a, std::string b)
 			carry = 0;
 		}
 		ans.push_back(tochar(curr_bit));
+		++a_it;
+		++b_it;
 	}
 	
-	if(a_it not_eq a.rend() or b_it not_eq b.rend() or carry not_eq 0 )
+	if(a_it not_eq a_end or carry not_eq 0 )
 	{
-		if (carry not_eq 0 )
+		if (carry not_eq 0)
 		{
 			char curr_bit = 0;
-			if(a_it not_eq a.rend())
+			if (a_it not_eq a.rend())
 			{
 				curr_bit = static_cast<char>((todigit(*a_it) + carry));
 				if (curr_bit >= 10)
 				{
 					curr_bit = 1;
-					ans.push_back(todigit(curr_bit % 10c));
-					ans.push_back(static_cast<char>(tochar(curr_bit / 10c + 1c)));
+					ans.push_back(todigit(curr_bit % 10));
+					ans.push_back(static_cast<char>(tochar(curr_bit / 10 + 1)));
 				}
-			}
-			else if (b_it not_eq b.rend())
-			{
-				curr_bit = static_cast<char>((todigit(*b_it) + carry));
-				if (curr_bit >= 10)
-				{
-					curr_bit = 1;
-					ans.push_back(todigit(curr_bit % 10c));
-					ans.push_back(static_cast<char>(tochar(curr_bit / 10c + 1c)));
-				}
-			}
-			else
+			} else
 			{
 				ans.push_back('1');
 			}
 		}
-		if (a_it not_eq a.rend())
+		while (a_it not_eq a_end)
 		{
-			while (a_it not_eq a.rend())
-			{
-				ans.push_back(*a_it);
-				++a_it;
-			}
-		}
-		else if (b_it not_eq b.rend())
-		{
-			while (b_it not_eq b.rend())
-			{
-				ans.push_back(*b_it);
-				++b_it;
-			}
+			ans.push_back(*a_it);
+			++a_it;
 		}
 	}
 	std::reverse(ans.begin(), ans.end());
 	return ans;
 }
 
+std::string long_num_mult(const std::string& num, int n)
+{
+	// TODO here is going to implment long num mult
+}
 
-std::string longNummult(const std::string& a,const  const std::string& b)
+std::string long_num_mult(const std::string& a, const std::string& b)
 {
 
 }
