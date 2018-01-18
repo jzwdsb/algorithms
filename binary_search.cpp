@@ -3,7 +3,9 @@
 //
 
 #include <vector>
+#include <algorithm>
 
+using std::lower_bound;
 using std::vector;
 
 /** the input S is ensured is in ordered*/
@@ -45,7 +47,7 @@ int binary_search(int n, vector<int>& S, int q, vector<int>& T)
 	S.push_back(0);
 	for (int ele : T)
 	{
-		if (bin_search_r(S, 0, n, ele))
+		if (*lower_bound(S.begin(), S.end(), ele) == ele)
 		{
 			++count;
 		}
