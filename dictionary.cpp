@@ -30,4 +30,5 @@ vector<string> dictionaay(const vector<pair<string, string>>& input)
 			ans.emplace_back(container.count(ins.second) == 1 ? "yes" : "no");
 		}
 	}
+	return ans;
 }
