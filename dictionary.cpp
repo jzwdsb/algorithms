@@ -11,6 +11,7 @@ using std::string;
 using std::pair;
 using std::set;
 
+
 /** Write a program of a simple dictionary which implements the following instructions
  * 		1: insert str. insert a string into a dictionary
  * 		2: find str. if the dictionary contains str, then print 'yes', otherwise print 'no'
