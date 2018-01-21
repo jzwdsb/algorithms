@@ -15,7 +15,7 @@ static int k;
 
 static vector<int> data;
 
-int check(int P)
+static int check(int P)
 {
 	int i = 0;
 	for (int j = 0; j < data.size(); ++j)
