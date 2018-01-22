@@ -10,6 +10,7 @@
 #include <stack>
 #include <algorithm>
 #include <limits>
+#include <cmath>
 
 using std::string;
 using std::vector;
