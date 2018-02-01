@@ -22,7 +22,7 @@ static int layer_start = 0;
 static int layer_end = 0;
 
 /** 这个函数产生当前状态经一步转移可到达的所有状态插入到 layer 之后*/
-static bool breadth_search(std::string& node)
+static bool breadth_search(std::string node)
 {
     int empty_pos = static_cast<int>(node.find('0'));
     for(int i = empty_pos - 2; i < empty_pos + 2; ++i)
@@ -49,6 +49,7 @@ int insect_jump()
     start = "012345678";
     end = "087654321";
     layer.push_back(start);
+    graph.insert(start);
     layer_end = 1;
     /** 当所有状态搜索完毕或到达目的状态时，搜索结束*/
     while (layer_start < layer.size())
