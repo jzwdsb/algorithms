@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+#include <queue>
 #include <unordered_set>
 
 /** 实现循环数组*/
@@ -17,12 +18,11 @@ static std::string start;
 static std::string end ;
 
 
-static std::vector<std::string> layer;
-static int layer_start = 0;
-static int layer_end = 0;
+static std::queue<std::string> layer;
+static int layer_count = 0;
 
 /** 这个函数产生当前状态经一步转移可到达的所有状态插入到 layer 之后*/
-static bool breadth_search(std::string node)
+static bool breadth_search(const std::string& node)
 {
     int empty_pos = static_cast<int>(node.find('0'));
     for(int i = empty_pos - 2; i < empty_pos + 2; ++i)
@@ -31,13 +31,14 @@ static bool breadth_search(std::string node)
         std::swap(child[INDEX(i)], child[INDEX(empty_pos)]);
         if (child == "087654321")
         {
+            layer.push(child);
             return true;
         }
         
         /** 避免重复搜索判断当前状态是否已经存在于图中*/
         if (graph.count(child) == 0)
         {
-            layer.push_back(child);
+            layer.push(child);
             graph.insert(child);
         }
     }
@@ -48,23 +49,24 @@ int insect_jump()
 {
     start = "012345678";
     end = "087654321";
-    layer.push_back(start);
+    layer.push(start);
     graph.insert(start);
-    layer_end = 1;
-    /** 当所有状态搜索完毕或到达目的状态时，搜索结束*/
-    while (layer_start < layer.size())
+    layer_count = 1;
+    /** 当到达目的状态时，搜索结束*/
+    while (true)
     {
         /** 当前层搜索完毕，进入下一层*/
-        if (layer_start == layer_end)
+        if (layer_count == 0)
         {
             ++steps;
-            layer_end = static_cast<int>(layer.size());
+            layer_count = static_cast<int>(layer.size());
         }
-        if (breadth_search(layer[layer_start]))
+        std::string node = layer.front();layer.pop();
+        if (breadth_search(node))
         {
             break;
         }
-        ++layer_start;
+        --layer_count;
     }
     return steps;
 }
