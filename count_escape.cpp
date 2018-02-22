@@ -1,6 +1,8 @@
 //
 // Created by manout on 18-2-1.
 //
+#include <cstring>
+#include <iostream>
 #include "common_use.h"
 
 /** 计算过程中的三种状态
@@ -27,12 +29,11 @@ static int escape;
 
 static vector<vector<int>> point;
 
-
 static void set_status(vector<coordinate>& path, int status)
 {
-    for (auto it = path.begin(); it not_eq path.end(); ++it)
+    for (auto &it : path)
     {
-        point[it->x][it->y] = status;
+        point[it.x][it.y] = status;
     }
 }
 
@@ -45,38 +46,24 @@ static void find_path(vector<string>& map, int x, int y)
         path.emplace_back(x, y);
         switch (map[x][y])
         {
-            case 'U':
-                --y;
-                break;
-            case 'D':
-                ++y;
-                break;
-            case 'L':
-                --x;
-                break;
-            case 'R':
-                ++x;
-                break;
-            default:
-                break;
+            case 'U': --x; break;
+            case 'D': ++x; break;
+            case 'L': --y; break;
+            case 'R': ++y; break;
+            default: break;
         }
-    }while (x < map.size() and y < map[0].length() and x > 0 and y > 0 and point[x][y] == NOPASSBY);
-    if (x >= map.size() or y >= map[0].length() or x < 0 or y < 0)
+    }while (x < map.size() and y < map[0].length() and x >= 0 and y >= 0 and point[x][y] == NOPASSBY);
+    if (x >= map.size() or y >= map[0].length() or x < 0 or y < 0 or point[x][y] == SUCCESS)
     {
         escape += path.size();
         set_status(path, SUCCESS);
         return;
     }
-    if (point[x][y] == SUCCESS)
-    {
-        escape += path.size();
-        set_status(path, SUCCESS);
-        return ;
-    }
-    if (point[x][y] == UNKNOWN)
+    if (point[x][y] == UNKNOWN or point[x][y] == FAILURE)
     {
         point[x][y] = FAILURE;
         set_status(path, FAILURE);
+        return ;
     }
 }
 
@@ -95,5 +82,6 @@ int count_escape(vector<string>& map)
             }
         }
     }
+    
     return escape;
 }
