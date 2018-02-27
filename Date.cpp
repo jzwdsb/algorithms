@@ -3,10 +3,6 @@
 //
 
 #include "Date.h"
-Date::Date(Date &)
-{
-
-}
 Date Date::operator+(int d)
 {
     Date ans(*this);
@@ -101,6 +97,6 @@ Date &Date::operator=(const Date& d)
     this->year = d.year;
     this->month = d.month;
     this->day = d.day;
-    return *this
+    return *this;
 }
 
