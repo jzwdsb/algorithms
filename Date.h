@@ -11,8 +11,11 @@ class Date
 {
 public :
     Date():year(0), month(0), day(0){}
-    Date(Date&) = default;
+    Date(const Date&) = default;
+    Date(Date&&) = default;
     Date(int y, int m = 0, int d = 0):year(y), month(m), day(d){}
+    
+    Date&operator= (const Date&);
     Date operator+(int d);
     
     friend std::ostream& operator << (std::ostream& os, Date date);

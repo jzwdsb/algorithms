@@ -3,7 +3,10 @@
 //
 
 #include "Date.h"
+Date::Date(Date &)
+{
 
+}
 Date Date::operator+(int d)
 {
     Date ans(*this);
@@ -91,5 +94,13 @@ std::ostream& operator<<(std::ostream &os, Date date)
 bool Date::isleaq(int y)
 {
     return y % 4 == 0 and y % 100 not_eq 0 or y % 400 == 0;
+}
+
+Date &Date::operator=(const Date& d)
+{
+    this->year = d.year;
+    this->month = d.month;
+    this->day = d.day;
+    return *this
 }
 
