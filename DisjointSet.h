@@ -11,9 +11,11 @@
 
 class DisjointSet
 {
+public:
     DisjointSet() = default;
     explicit DisjointSet(size_t eleCount);
 
+    void reset(size_t eleCount);
     size_t find_set(size_t x);
     bool isSameSet(size_t x, size_t y);
     size_t set_size(size_t x);

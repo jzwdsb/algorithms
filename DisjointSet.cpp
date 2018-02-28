@@ -4,8 +4,16 @@
 
 #include "DisjointSet.h"
 
-DisjointSet::DisjointSet(size_t eleCount):set_count(eleCount), rank(eleCount, 1u), reTable(eleCount)
+DisjointSet::DisjointSet(size_t eleCount)
 {
+   reset(eleCount);
+}
+
+void DisjointSet::reset(size_t eleCount)
+{
+    this->set_count = eleCount;
+    this->rank.resize(eleCount, 1);
+    reTable.resize(eleCount);
     while(eleCount != 0u)
     {
         --eleCount;
@@ -61,3 +69,5 @@ void DisjointSet::link_set(size_t x, size_t y)
         --set_count;
     }
 }
+
+
