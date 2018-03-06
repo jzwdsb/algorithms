@@ -5,7 +5,6 @@
 #ifndef ALOGRITHMS_RBTREE_H
 #define ALOGRITHMS_RBTREE_H
 
-#include "RBNode.h"
 
 template <typename Key, typename Value>
 class RBTree
@@ -22,20 +21,48 @@ public :
     using value_pointer = Value*;
     using const_value_pointer = const Value*;
     
-    RBNode<Key, Value>* insert(RBNode<Key, Value>* node, key_refer key, value_refer value);
+    bool insert(key_refer key, value_refer value);
     void find(key_refer key);
     void remove(key_refer key);
     
 private:
-    using node_pointer = RBNode<Key, value_type>*;
-    
+    enum Color
+    {
+        BLACK,RED
+    };
+    struct RBNode
+    {
+        Key key;
+        Value value;
+        Color color = BLACK;
+        RBNode* parent = nullptr;
+        RBNode* left = nullptr;
+        RBNode* right = nullptr;
+        
+        RBNode* grandparent()
+        {
+            return this->parent->parent;
+        }
+        RBNode* uncle()
+        {
+            if (this->parent == grandparent()->left)
+            {
+                return grandparent()->right;
+            }else
+            {
+                return grandparent()->left;
+            }
+        }
+        RBNode(Key k, Value v):key(k), value(v){}
+    };
+    using node_pointer = RBNode*;
     void left_rotate(node_pointer node);
     void right_rotate(node_pointer node);
-    
+    void fix_up(node_pointer node);
 private:
-    static node_pointer nil = new RBNode<Key, Value>(Key(), Value());
+    static node_pointer nil = new RBNode(Key(), Value());
     
-    RBNode<Key , value_type>* root;
+    RBNode* root;
     int level;
     int count;
 };
@@ -89,22 +116,102 @@ void RBTree<Key, Value>::right_rotate(RBTree::node_pointer node)
 }
 
 template<typename Key, typename Value>
-RBNode<Key, Value>* RBTree<Key, Value>::insert(node_pointer node, key_refer key, value_refer value)
+bool RBTree<Key, Value>::insert(key_refer key, value_refer value)
 {
-    if (node == nil)
+    node_pointer curr_node = this->root;
+    if (curr_node == nullptr)
     {
-        node_pointer new_node = new RBNode(key, value);
-        if ()
-        return root;
-    }else if (node->key == key)
+        this->root = new RBNode(key, value);
+        this->root->left = nil;
+        this->root->right = nil;
+        this->root->color = Color::RED;
+        return true;
+    }
+    while (curr_node->left not_eq nil and curr_node->right not_eq nil)
     {
-        return nullptr;
-    }else if (node->key < key)
+        if (curr_node->key == key)
+        {
+            return false;
+        }else if (curr_node->key < key)
+        {
+            curr_node = curr_node->right;
+        }else if (curr_node->key > key)
+        {
+            curr_node = curr_node->left;
+        }
+    }
+    if (curr_node->key == key)
     {
-        return insert(node->right, key, value);
+        return false;
+    }else if (curr_node->key < key)
+    {
+        curr_node->right = new RBNode(key, value);
+        curr_node->right->parent = curr_node;
+        curr_node->right->left = curr_node->right = nil;
+        curr_node->right->color = Color::RED;
+        fix_up(curr_node->right);
+        
+    }else if (curr_node->key > key)
+    {
+        curr_node->left = new RBNode(key, value);
+        curr_node->left ->parent = curr_node;
+        curr_node->left->left = curr_node->right = nil;
+        curr_node->left->color = Color::RED;
+        fix_up(curr_node->left);
+    }
+   return true;
+}
+
+template<typename Key, typename Value>
+void RBTree<Key, Value>::fix_up(RBTree::node_pointer node)
+{
+    /** case 1: the new node is the root*/
+    if (node->parent == nullptr)
+    {
+        node->color = Color::BLACK;
+        return;
+    }
+    /** case 2: the new node's parent node is black*/
+    if (node->parent->color == Color::BLACK)
+    {
+        /** nothing to do*/
+        return ;
+    }
+    /** case 3: the new node's parent and it's uncle is both red*/
+    if (node->uncle() not_eq nullptr and node->uncle()->color == Color::RED)
+    {
+        node->parent->color = Color::BLACK;
+        node->uncle()->color = Color::BLACK;
+        node->grandparent()->color = Color::RED;
+        fix_up(node->grandparent());
+        return ;
+    }
+    /** case 4: the new node is a right node and it's parent is a left node*/
+    if (node == node->parent->right and node->parent == node->grandparent()->left)
+    {
+        left_rotate(node->parent);
+        node = node->left;
+    }/** the new node is a left node and it's parent is a right node*/
+    else if (node == node->parent->left and node->parent == node->grandparent()->right)
+    {
+        right_rotate(node->parent);
+        node = node->right;
+    }
+    /** case 5: the new node's parent is red and it's uncle is black or missing, the new
+     *          node is a left node and the it's parent is also a left node, do the left
+     *          rotate to the grandparent node ,
+     *          or the opposite,
+     *          the new node is right node and it's parent is also a right node
+     *          do the right rotate to the grandparent
+     *          */
+    node->parent->color = Color::BLACK;
+    node->grandparent()->color = Color::RED;
+    if (node == node->parent->left and node->parent == node->grandparent()->left)
+    {
+        right_rotate(node->grandparent());
     }else
     {
-        return insert(node->left, key, value);
+        left_rotate(node->grandparent());
     }
 }
 
