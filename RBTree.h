@@ -21,8 +21,8 @@ public :
     using value_pointer = Value*;
     using const_value_pointer = const Value*;
     
+    value_pointer find(key_refer key);
     bool insert(key_refer key, value_refer value);
-    void find(key_refer key);
     void remove(key_refer key);
     
 private:
@@ -38,27 +38,20 @@ private:
         RBNode* parent = nullptr;
         RBNode* left = nullptr;
         RBNode* right = nullptr;
-        
-        RBNode* grandparent()
-        {
-            return this->parent->parent;
-        }
-        RBNode* uncle()
-        {
-            if (this->parent == grandparent()->left)
-            {
-                return grandparent()->right;
-            }else
-            {
-                return grandparent()->left;
-            }
-        }
+        RBNode* grandparent();
+        RBNode* uncle();
+        RBNode* silbing();
+        void relplace(RBNode* n);
         RBNode(Key k, Value v):key(k), value(v){}
     };
     using node_pointer = RBNode*;
     void left_rotate(node_pointer node);
     void right_rotate(node_pointer node);
     void fix_up(node_pointer node);
+    node_pointer find_(key_refer key);
+    void remove_(node_pointer node);
+    node_pointer tree_max(node_pointer root);
+    node_pointer tree_min(node_pointer root);
 private:
     static node_pointer nil = new RBNode(Key(), Value());
     
@@ -66,6 +59,41 @@ private:
     int level;
     int count;
 };
+
+template<typename Key, typename Value>
+RBTree::RBNode *RBTree<Key, Value>::RBNode::grandparent()
+{
+    return this->parent->parent;
+}
+
+template<typename Key, typename Value>
+RBTree::RBNode *RBTree<Key, Value>::RBNode::uncle()
+{
+    {
+        if (this->parent == grandparent()->left)
+        {
+            return grandparent()->right;
+        }else
+        {
+            return grandparent()->left;
+        }
+    }
+}
+
+template<typename Key, typename Value>
+RBTree::RBNode *RBTree<Key, Value>::RBNode::silbing()
+{
+    if (this == this->parent->left)
+        return this->parent->right;
+    return this->parent->left;
+}
+
+template<typename Key, typename Value>
+void RBTree<Key, Value>::RBNode::relplace(RBTree::RBNode *n)
+{
+    this->key = n->key;
+    this->value = n->value;
+}
 
 template<typename Key, typename Value>
 void RBTree<Key, Value>::left_rotate(RBTree::node_pointer node)
@@ -214,6 +242,97 @@ void RBTree<Key, Value>::fix_up(RBTree::node_pointer node)
         left_rotate(node->grandparent());
     }
 }
+
+template<typename Key, typename Value>
+node_pointer RBTree<Key, Value>::find_(Key &key)
+{
+    node_pointer curr_node = this->root;
+    while (curr_node->left not_eq nil and curr_node->right not_eq nil)
+    {
+        if (curr_node->key == key)
+        {
+            return curr_node;
+        }
+        if (curr_node->key < key)
+        {
+            curr_node = curr_node->right;
+        }else
+        {
+            curr_node = curr_node->left;
+        }
+    }
+    if (curr_node->left not_eq nil)
+    {
+        if (curr_node->left->key == key)
+            return curr_node->left;
+        else
+            return nullptr;
+    } else if (curr_node->right not_eq nil)
+    {
+        if (curr_node->right->key == key)
+            return curr_node->right;
+    }
+    return nullptr;
+}
+
+template<typename Key, typename Value>
+RBTree::value_pointer RBTree<Key, Value>::find(Key &key)
+{
+    return &find_(key)->value;
+}
+
+template<typename Key, typename Value>
+void RBTree<Key, Value>::remove(Key &key)
+{
+    node_pointer node = find_(key);
+    node_pointer max_node = tree_max(node);
+    node->key = max_node->key;
+    node->value = max_node->value;
+    remove_(max_node);
+}
+
+template<typename Key, typename Value>
+RBTree::node_pointer RBTree<Key, Value>::tree_max(RBTree::node_pointer root)
+{
+    while (root->right not_eq nil)
+    {
+        root = root->right;
+    }
+    return root;
+}
+
+template<typename Key, typename Value>
+RBTree::node_pointer RBTree<Key, Value>::tree_min(RBTree::node_pointer root)
+{
+    while (root->left not_eq nil)
+    {
+        root = root->left;
+    }
+    return root;
+}
+
+template<typename Key, typename Value>
+void RBTree<Key, Value>::remove_(RBTree::node_pointer node)
+{
+    int which;
+    if (node->left == nil and node->right == nil)
+    {
+        if (node == node->parent->left)
+        {
+            which = 1;
+            node->parent->left = nil;
+            
+        }else
+        {
+            which = 0;
+            node->parent->right = nil;
+        }
+        delete node;
+        return ;
+    }
+    node_pointer son = node->left == nil ? node->left : node->right;
+}
+
 
 
 #endif //ALOGRITHMS_RBTREE_H
