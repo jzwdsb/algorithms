@@ -52,6 +52,13 @@ private:
     void remove_(node_pointer node);
     node_pointer tree_max(node_pointer root);
     node_pointer tree_min(node_pointer root);
+    
+    void delete_case1(node_pointer node);
+    void delete_case2(node_pointer node);
+    void delete_case3(node_pointer node);
+    void delete_case4(node_pointer node);
+    void delete_case5(node_pointer node);
+    void delete_case6(node_pointer node);
 private:
     static node_pointer nil = new RBNode(Key(), Value());
     
@@ -91,9 +98,19 @@ RBTree::RBNode *RBTree<Key, Value>::RBNode::silbing()
 template<typename Key, typename Value>
 void RBTree<Key, Value>::RBNode::relplace(RBTree::RBNode *n)
 {
-    this->key = n->key;
-    this->value = n->value;
+    if (this->parent not_eq nullptr)
+    {
+        n->parent = this->parent;
+        if (this == this->parent->left)
+        {
+            this->parent->left = n;
+        }else
+        {
+            this->parent->right = n;
+        }
+    }
 }
+
 
 template<typename Key, typename Value>
 void RBTree<Key, Value>::left_rotate(RBTree::node_pointer node)
@@ -285,6 +302,7 @@ template<typename Key, typename Value>
 void RBTree<Key, Value>::remove(Key &key)
 {
     node_pointer node = find_(key);
+    if (node == nullptr)return ;
     node_pointer max_node = tree_max(node);
     node->key = max_node->key;
     node->value = max_node->value;
@@ -314,25 +332,124 @@ RBTree::node_pointer RBTree<Key, Value>::tree_min(RBTree::node_pointer root)
 template<typename Key, typename Value>
 void RBTree<Key, Value>::remove_(RBTree::node_pointer node)
 {
-    int which;
-    if (node->left == nil and node->right == nil)
+    /** the node must have one non null child*/
+    node_pointer son = node->left == nil ? node->right : node->left;
+    node->relplace(son);
+    if (node->color == Color::BLACK)
     {
-        if (node == node->parent->left)
+        if (son->color == Color::RED)
         {
-            which = 1;
-            node->parent->left = nil;
-            
+            son->color = Color ::BLACK;
         }else
         {
-            which = 0;
-            node->parent->right = nil;
+            delete_case1(son);
         }
-        delete node;
-        return ;
     }
-    node_pointer son = node->left == nil ? node->left : node->right;
+    delete node;
 }
 
+template<typename Key, typename Value>
+void RBTree<Key, Value>::delete_case1(RBTree::node_pointer node)
+{
+    /** case 1: the node is red, just delete it and return*/
+    if (node->parent not_eq nullptr)
+        delete_case2(node);
+}
+
+template<typename Key, typename Value>
+void RBTree<Key, Value>::delete_case2(RBTree::node_pointer node)
+{
+    node_pointer sibling = node->silbing();
+    if (sibling->color == Color::RED)
+    {
+        node->parent->color = Color ::RED;
+        sibling->color = Color ::BLACK;
+        if (node == node->parent->left)
+        {
+            left_rotate(node->parent);
+        }else
+        {
+            right_rotate(node->parent);
+        }
+    }
+    delete_case3(node);
+}
+
+template<typename Key, typename Value>
+void RBTree<Key, Value>::delete_case3(RBTree::node_pointer node)
+{
+    node_pointer silbing = node->silbing();
+    if (node->parent->color == BLACK
+        and silbing->color == BLACK
+        and silbing->left->color == BLACK
+        and silbing->right->color == BLACK)
+    {
+        silbing->color = Color ::RED;
+        delete_case1(node->parent);
+    }else
+    {
+        delete_case4(node);
+    }
+}
+
+template<typename Key, typename Value>
+void RBTree<Key, Value>::delete_case4(RBTree::node_pointer node)
+{
+    node_pointer silbing = node->silbing();
+    if (node->parent->color == RED
+        and silbing->color == BLACK
+        and silbing->left->color == BLACK
+        and silbing->right->color == BLACK)
+    {
+        silbing->color = Color ::RED;
+        node->parent->color = Color ::RED;
+    }else
+    {
+        delete_case5(node);
+    }
+}
+
+template<typename Key, typename Value>
+void RBTree<Key, Value>::delete_case5(RBTree::node_pointer node)
+{
+    node_pointer sibling = node->silbing();
+    if (sibling->color == RED)
+    {
+        if (node == node->parent->left
+            and sibling->left->color == RED
+            and sibling->right->color == BLACK)
+        {
+            sibling->color = RED;
+            sibling->left->color = BLACK;
+            right_rotate(sibling);
+        }else if (node == node->parent->right
+                  and sibling->left->color == BLACK
+                  and sibling->right->color == RED)
+        {
+            sibling->color = RED;
+            sibling->right->color = BLACK;
+            left_rotate(sibling);
+        }
+    }
+    delete_case6(node);
+}
+
+template<typename Key, typename Value>
+void RBTree<Key, Value>::delete_case6(RBTree::node_pointer node)
+{
+    node_pointer sibling = node->silbing();
+    sibling->color = node->parent->color;
+    node->parent->color = BLACK;
+    if (node == node->parent->left)
+    {
+        sibling->right->color = BLACK;
+        left_rotate(node->parent);
+    }else
+    {
+        sibling->left->color = BLACK;
+        right_rotate(node->parent);
+    }
+}
 
 
 #endif //ALOGRITHMS_RBTREE_H
