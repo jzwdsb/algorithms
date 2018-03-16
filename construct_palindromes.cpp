@@ -32,8 +32,6 @@ int longest_common_substring(string& a, string& b)
 
 int construct_palindromes(string str)
 {
-    string r_str;
-    r_str.resize(str.length());
-    std::reverse_copy(str.begin(), str.end(), r_str.begin());
+    string r_str(str.rbegin(), str.rend());
     return str.length() - longest_common_substring(str, r_str);
 }
