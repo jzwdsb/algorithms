@@ -15,7 +15,10 @@ string& capital_rotate(string& str)
     {
         if (isupper(*it))
         {
-            rotate(it, it + 1, str.end());
+            auto next_lower = it;
+            while (isupper(*next_lower) and next_lower not_eq rotate_end)++next_lower;
+            if (next_lower == rotate_end)return str;
+            rotate(it, next_lower, str.end());
             --rotate_end;
         }
     }

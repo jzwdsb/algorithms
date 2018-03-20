@@ -3,15 +3,12 @@
 //
 
 #include <string>
-#include <algorithm>
 #include <iostream>
 
 static bool check_is(int num)
 {
-    std::string num_s = std::to_string(num);
-    std::reverse(num_s.begin(), num_s.end());
-    int num_r = std::stoi(num_s);
-    return num - num_r == 27;
+    int num_r = (num % 10) * 10 + num / 10;
+    return num  - num_r == 27;
 }
 
 int guess_age()
@@ -21,6 +18,7 @@ int guess_age()
     {
         if (check_is(i))
         {
+            std::cout << i << std::endl;
             ++count_;
         }
     }
