@@ -52,7 +52,7 @@ static void dfs(int dep, int pos)
         {
             numv[i] = true;
             mapp[dep][pos] = i;
-            dfs(dep, pos + 1;
+            dfs(dep, pos + 1);
             mapp[dep][pos] = -10;
             numv[i] = false;
         }
