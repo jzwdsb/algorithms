@@ -30,4 +30,20 @@ using std::end;
 using std::distance;
 using std::min;
 
+struct Point
+{
+    int x;
+    int y;
+    Point():x(0), y(0){}
+    Point(int x, int y):x(x), y(y){}
+    Point operator-(Point& b)
+    {
+        return {this->x - b.x, this->y - b.y};
+    }
+    int sum()
+    {
+        return this->x + this->y;
+    }
+};
+
 #endif //LEETCODE_COMMON_USE_H
