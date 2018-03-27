@@ -42,7 +42,7 @@ struct Point
     }
     int sum()
     {
-        return this->x + this->y;
+        return abs(this->x) + abs(this->y);
     }
 };
 
