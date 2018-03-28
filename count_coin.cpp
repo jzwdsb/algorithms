@@ -6,29 +6,34 @@
 
 static int count = 0;
 
-inline
+__always_inline
 int mypow(int n)
 {
     return static_cast<int>(std::pow(2, n));
 }
 
-static void coin(int n, int k, int sum)
+static int coin(int n, int k, int sum)
 {
     int pow = mypow(k);
-    if (sum + pow < n)
-    {
-        coin(n, k + 1, sum + pow);
-        coin(n, k, sum + pow);
-        return ;
-    }else if (sum + pow == n)
+    if (sum + pow == n)
     {
         ++count;
-        return ;
     }
+    if (sum + pow < n)
+    {
+        coin(n, k + 1, sum);
+        coin(n, k + 1, sum + pow);
+        if (sum + 2 * pow < n)
+        {
+            coin(n, k + 1, sum + 2 * pow);
+        }
+    }
+
 }
 
 int count_coin(int n)
 {
+    count = 0;
     coin(n, 0, 0);
     return count;
 }
