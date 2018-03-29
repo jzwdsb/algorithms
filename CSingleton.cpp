@@ -3,3 +3,15 @@
 //
 
 #include "CSingleton.h"
+
+CSingleton::CSingleton()
+{
+     /** do something here*/
+}
+
+CSingleton &CSingleton::get_instance()
+{
+    static CSingleton instance;
+    return instance;
+}
+
