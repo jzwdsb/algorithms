@@ -34,12 +34,11 @@ static bool breadth_search(const std::string& node)
             layer.push(child);
             return true;
         }
-        
         /** 避免重复搜索判断当前状态是否已经存在于图中*/
         if (graph.count(child) == 0)
         {
             layer.push(child);
-            graph.insert(child);
+            graph.insert({child});
         }
     }
     return false;
@@ -50,7 +49,7 @@ int insect_jump()
     start = "012345678";
     end = "087654321";
     layer.push(start);
-    graph.insert(start);
+    graph.insert({start});
     layer_count = 1;
     /** 当到达目的状态时，搜索结束*/
     while (true)

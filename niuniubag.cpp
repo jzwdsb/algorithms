@@ -39,13 +39,3 @@ void bag(int w, int i)
    
 }
 
-int main()
-{
-    freopen("/home/manout/algorithms/niuniubag.testdata", "r", stdin);
-    cin >> n >> w;
-    snacks.resize(n);
-    for (int i = 0; i < n; ++i)
-        cin >> snacks[i];
-    bag(w, n - 1);
-    cout << count_;
-}
