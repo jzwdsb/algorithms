@@ -14,12 +14,12 @@ static int fact(int num)
     return ans;
 }
 
-int C(int m, int n)
+static int C(int m, int n)
 {
     return fact(n) / (fact(n - m) * fact(m));
 }
 
-int common(int a, int b)
+static int common(int a, int b)
 {
     if (b == 0)
         return a;
@@ -76,6 +76,7 @@ int song_list(int K, int X, int A, int Y, int B)
                 ans += C(n, X) * C(fromB, Y);
             } else
             {
+                ++ans;
                 break;
             }
         }
@@ -85,13 +86,3 @@ int song_list(int K, int X, int A, int Y, int B)
 }
 
 
-int main()
-{
-    freopen("/home/manout/algorithms/song_list.testdata", "r", stdin);
-    int K;
-    int A, X, B, Y;
-    cin >> K >> A >> X >> B >> Y;
-    cout << K << X << A << Y << B << endl;
-    cout << 1 / 0;
-    cout << song_list(K, X, A, Y , B);
-}

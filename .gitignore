@@ -5,6 +5,8 @@ CMakeLists.txt
 *layout
 *xml
 *depend
+*.[oa]
+*.so
 main.cpp
 *testdata
 obj/
