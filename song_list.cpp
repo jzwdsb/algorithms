@@ -34,7 +34,10 @@ int song_list(int K, int X, int A, int Y, int B)
         if (B not_eq 0 and K % B == 0)
         {
             int n = K / B;
-            ans += C(n, Y);
+            if (n >= Y)
+                ++ans;
+            else
+                ans += C(n, Y);
         }
         return ans % 1000000007;
     }
@@ -43,7 +46,10 @@ int song_list(int K, int X, int A, int Y, int B)
         if (K % A == 0)
         {
             int n = K / A;
-            ans += C(n, X);
+            if (n > X)
+                ++ans;
+            else
+                ans += C(n, X);
         }
         return ans % 1000000007;
     }
@@ -54,43 +60,26 @@ int song_list(int K, int X, int A, int Y, int B)
         B /= com;
         K /= com;
     }
-    if (A < B)
+    if (A > B)
     {
-        int n = 0;
-        while ((K - A * n) >= 0 and n <= X )
-        {
-            if ((K - A * n) % B == 0)
-            {
-                int fromB = (K - A * n) / B;
-                if (fromB <= Y)
-                {
-                    ans += C(n, X) * C(fromB, Y);
-                }else
-                {
-                    break;
-                }
-            }
-            ++n;
-        }
+        swap(A, B);
+        swap(X, Y);
     }
-    else
+    int n = 0;
+    while ((K - A * n) >= 0 and n <= X)
     {
-        int n = 0;
-        while ((K - B * n) >= 0 and n <= Y )
+        if ((K - A * n) % B == 0)
         {
-            if ((K - B * n) % A == 0)
+            int fromB = (K - A * n) / B;
+            if (fromB <= Y)
             {
-                int fromA = (K - B * n) / A;
-                if (fromA <= X)
-                {
-                    ans += C(n, Y) * C(fromA, X);
-                }else
-                {
-                    break;
-                }
+                ans += C(n, X) * C(fromB, Y);
+            } else
+            {
+                break;
             }
-            ++n;
         }
+        ++n;
     }
     return ans % 1000000007;
 }
