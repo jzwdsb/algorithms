@@ -4,6 +4,10 @@
 
 #include "all_include.h"
 
+/**
+ *  总的就是求字符串里面子字符串出现的次数，根据样例子字符串可以重叠
+ * */
+
 vector<pair<string, int>> HDU_3065(vector<string>& virus, string& text)
 {
     vector<pair<string, int>> ans;
